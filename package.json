@@ -1,0 +1,26 @@
+{
+  "name": "agenda-aop-ws",
+  "version": "1.0.0",
+  "description": "Agenda telefônica implementando AOP",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/samuelnovaes/agenda-aop-ws.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/samuelnovaes/agenda-aop-ws/issues"
+  },
+  "homepage": "https://github.com/samuelnovaes/agenda-aop-ws#readme",
+  "dependencies": {
+    "aspectjs": "^2.0.4",
+    "express": "^4.17.1",
+    "sequelize": "^5.21.2",
+    "sqlite3": "^4.1.0"
+  }
+}
