@@ -1,25 +1,53 @@
-const Contact = require('../models/contact')
+const ContactModel = require('../models/contact')
 
-exports.create = async (name, phone, userId) => {
-	const contact = new Contact({ name, phone, userId })
-	await contact.save()
+class Contact {
+	constructor(userId) {
+		this.contact = new ContactModel()
+		this.contact.userId = userId
+	}
+
+	get userId() {
+		return this.contact.userId
+	}
+
+	get id() {
+		return this.contact.id
+	}
+
+	get phone() {
+		return this.contact.phone
+	}
+
+	set phone(value) {
+		this.contact.phone = value
+	}
+
+	get name() {
+		return this.contact.name
+	}
+
+	set name(value) {
+		this.contact.name = value
+	}
+
+	async save(){
+		await this.contact.save()
+	}
+
+	async load(id) {
+		this.contact = await ContactModel.findByPk(id)
+	}
+
+	async delete (){
+		await this.contact.destroy()
+	}
+
+	static async list (userId){
+		const contacts = await ContactModel.findAll({
+			where: { userId }
+		})
+		return contacts
+	}
 }
 
-exports.update = async (id, name, phone) => {
-	const contact = await Contact.findByPk(id)
-	if(name) contact.name = name
-	if(phone) contact.phone = phone
-	await contact.save()
-}
-
-exports.delete = async (id) => {
-	const contact = await Contact.findByPk(id)
-	await contact.destroy()
-}
-
-exports.list = async (userId) => {
-	const contacts = await Contact.findAll({
-		where: { userId }
-	})
-	return contacts
-}
+module.exports = Contact

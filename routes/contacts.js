@@ -1,11 +1,16 @@
 const router = require('express').Router()
-const ContactController = require('../controllers/contact')
+const Contact = require('../controllers/contact')
 const auth = require('../middlewares/auth')
+const aspectjs = require('aspectjs')
+const contactAspect = require('../apects/contact')
 
 //Adicionar contato
 router.post('/', auth, async (req, res) => {
 	try {
-		await ContactController.create(req.body.name, req.body.phone, req.userId)
+		const contact = new Contact(req.userId)
+		contact.name = req.body.name
+		contact.phone = req.body.phone
+		await contact.save()
 		res.send()
 	}
 	catch (error) {
@@ -16,7 +21,7 @@ router.post('/', auth, async (req, res) => {
 //Listar contatos
 router.get('/', auth, async (req, res) => {
 	try {
-		const contacts = await ContactController.list(req.userId)
+		const contacts = await Contact.list(req.userId)
 		res.json(contacts)
 	}
 	catch (error) {
@@ -27,7 +32,13 @@ router.get('/', auth, async (req, res) => {
 //Deletar contato
 router.delete('/:id', auth, async (req, res) => {
 	try {
-		await ContactController.delete(req.params.id)
+		const contact = new Contact(req.userId)
+		await contact.load(req.params.id)
+
+		const adviser = contactAspect(req.userId)
+		aspectjs.before(contact, 'delete').add(adviser.beforeDelete)
+
+		await contact.delete()
 		res.end()
 	}
 	catch (error) {
@@ -38,7 +49,16 @@ router.delete('/:id', auth, async (req, res) => {
 //Atualizar contato
 router.put('/:id', auth, async (req, res) => {
 	try {
-		await ContactController.update(req.params.id, req.body.name, req.body.phone)
+		const contact = new Contact(req.userId)
+		await contact.load(req.params.id)
+		
+		if (req.body.name) contact.name = req.body.name
+		if (req.body.phone) contact.phone = req.body.phone
+
+		const adviser = contactAspect(req.userId)
+		aspectjs.before(contact, 'save').add(adviser.beforeUpdate)
+
+		await contact.save()
 		res.end()
 	}
 	catch (error) {
