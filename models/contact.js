@@ -15,10 +15,7 @@ Contact.init({
 	},
 	phone: {
 		type: Sequelize.STRING,
-		allowNull: false,
-		validate: {
-			is: /^\d{10,11}$/
-		}
+		allowNull: false
 	}
 }, { sequelize, modelName: 'contact' })
 

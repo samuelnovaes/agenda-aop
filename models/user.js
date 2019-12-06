@@ -15,10 +15,7 @@ User.init({
 	},
 	password: {
 		type: Sequelize.STRING,
-		allowNull: false,
-		validate: {
-			len: [6]
-		}
+		allowNull: false
 	}
 }, { sequelize, modelName: 'user' })
 
