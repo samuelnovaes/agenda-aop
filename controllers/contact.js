@@ -1,14 +1,14 @@
 const Contact = require('../models/contact')
 
-exports.create = async (name, phone) => {
-	const contact = new Contact({ name, phone })
+exports.create = async (name, phone, userId) => {
+	const contact = new Contact({ name, phone, userId })
 	await contact.save()
 }
 
 exports.update = async (id, name, phone) => {
 	const contact = await Contact.findByPk(id)
-	contact.name = name
-	contact.phone = phone
+	if(name) contact.name = name
+	if(phone) contact.phone = phone
 	await contact.save()
 }
 

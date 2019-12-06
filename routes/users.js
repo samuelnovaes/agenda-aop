@@ -16,7 +16,7 @@ router.post('/', async (req, res) => {
 router.post('/login', async (req, res) => {
 	try {
 		const token = await UserController.login(req.body.username, req.body.password)
-		res.send(token)
+		res.json({ token: `Bearer ${token}` })
 	}
 	catch (error) {
 		res.status(500).send(error.message)
