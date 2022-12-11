@@ -19,7 +19,7 @@
 	"homepage": "https://github.com/samuelnovaes/agenda-aop-ws#readme",
 	"dependencies": {
 		"aspectjs": "^2.0.4",
-		"express": "^4.17.1",
+		"express": "^4.17.3",
 		"jsonwebtoken": "^8.5.1",
 		"sequelize": "^5.21.2",
 		"sqlite3": "^4.1.0"
